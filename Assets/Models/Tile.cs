@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Tile {
+
+	Action<Tile> cbTileTypeChanged;
 	
 	public enum TileType {
 		Empty,
@@ -18,7 +21,8 @@ public class Tile {
 			if (type != value) {
 				type = value;
 				//Call the callback and let things know we've changed
-
+				if (cbTileTypeChanged != null)
+					cbTileTypeChanged(this);
 			}
 		}
 	}
@@ -46,5 +50,15 @@ public class Tile {
 		this.x = x;
 		this.y = y;
 	}
+
+
+	public void RegisterTileTypeChangedCallback(Action<Tile> callback) {
+		//It behaves like an array, you can call this function multiple times
+		this.cbTileTypeChanged += callback;
+	} 
+
+	public void UnregisterTileTypeChangedCallback(Action<Tile> callback) {
+		this.cbTileTypeChanged -= callback;
+	} 
 
 }

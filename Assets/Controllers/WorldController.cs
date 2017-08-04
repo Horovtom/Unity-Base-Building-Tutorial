@@ -24,6 +24,12 @@ public class WorldController : MonoBehaviour {
 				tile_gameobject.transform.position = new Vector3(tile_dataobject.X, tile_dataobject.Y, 0);
 
 				tile_gameobject.AddComponent<SpriteRenderer>();
+				//Just save lambda there
+				tile_dataobject.RegisterTileTypeChangedCallback(
+					(tile) => {
+						OnTileTypeChanged (tile, tile_gameobject);
+					}
+				);
 
 			}
 		}
@@ -31,16 +37,9 @@ public class WorldController : MonoBehaviour {
 		world.RandomizeTiles();
 	}
 
-	float randomizeTileTimer = 2f;
-
 	// Update is called once per frame
 	void Update () {
-		randomizeTileTimer -= Time.deltaTime;
-
-		if (randomizeTileTimer < 0) {
-			world.RandomizeTiles();
-			randomizeTileTimer = 2f;
-		}
+		
 	}
 
 	void OnTileTypeChanged(Tile tile_data, GameObject tile_go) {
