@@ -6,10 +6,6 @@ public class Tile {
 
 	Action<Tile> cbTileTypeChanged;
 	
-	public enum TileType {
-		Empty,
-		Floor
-	};
 
 	TileType _type = TileType.Empty;
 
@@ -73,3 +69,9 @@ public class Tile {
 	} 
 
 }
+
+public enum TileType {
+	Empty,
+	Floor
+};
+

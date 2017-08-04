@@ -7,7 +7,7 @@ public class MouseController : MonoBehaviour {
 
 	public GameObject circleCursorPrefab;
 
-	Tile.TileType buildModeTile = Tile.TileType.Floor;
+	TileType buildModeTile = TileType.Floor;
 
 	Vector3 lastFramePosition;
 	Vector3 currFramePosition;
@@ -127,10 +127,10 @@ public class MouseController : MonoBehaviour {
 	}
 
 	public void SetMode_BuildFloor() {
-		buildModeTile = Tile.TileType.Floor;
+		buildModeTile = TileType.Floor;
 	}
 
 	public void SetMode_Bulldoze() {
-		buildModeTile = Tile.TileType.Empty;
+		buildModeTile = TileType.Empty;
 	}
 }
