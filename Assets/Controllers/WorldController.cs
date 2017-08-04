@@ -3,20 +3,30 @@ using System.Collections;
 
 public class WorldController : MonoBehaviour {
 
+	public static WorldController Instance {
+		get;
+		protected set;
+	}
 	public Sprite floorSprite;
 
-	World world;
+	public World World {
+		get; 
+		protected set;}
 
 	// Use this for initialization
 	void Start () {
+		if (Instance != null) {
+			Debug.LogError("There should be only one WorldController!!!");
+		}
+		Instance = this;
 
-		world = new World();
+		World = new World();
 
 
 		//Create a GameObject for each of our tiles, so they show visually
-		for (int x = 0; x < world.Width; x++) {
-			for (int y = 0; y < world.Height; y++) {
-				Tile tile_dataobject = world.GetTileAt(x, y);
+		for (int x = 0; x < World.Width; x++) {
+			for (int y = 0; y < World.Height; y++) {
+				Tile tile_dataobject = World.GetTileAt(x, y);
 				//Get our tile game object (used in graphics)
 				GameObject tile_gameobject = new GameObject();
 
@@ -35,7 +45,7 @@ public class WorldController : MonoBehaviour {
 			}
 		}
 
-		world.RandomizeTiles();
+		World.RandomizeTiles();
 	}
 
 	// Update is called once per frame
