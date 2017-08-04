@@ -7,6 +7,7 @@ public class MouseController : MonoBehaviour {
 
 	public GameObject circleCursorPrefab;
 
+	bool buildModeIsObjects = false;
 	TileType buildModeTile = TileType.Floor;
 
 	Vector3 lastFramePosition;
@@ -97,8 +98,15 @@ public class MouseController : MonoBehaviour {
 	}
 
 	void ClickedOnTile(Tile t) {
-		if (t != null)
-		t.Type = buildModeTile;
+		if (t != null) {
+			if (buildModeIsObjects) {
+
+
+				//FIXME: Right now, we're just going to assume walls.
+
+			} else 
+				t.Type = buildModeTile;
+		}
 	}
 
 	void UpdateCameraMovement() {
@@ -128,9 +136,17 @@ public class MouseController : MonoBehaviour {
 
 	public void SetMode_BuildFloor() {
 		buildModeTile = TileType.Floor;
+		buildModeIsObjects = false;
 	}
 
 	public void SetMode_Bulldoze() {
 		buildModeTile = TileType.Empty;
+		buildModeIsObjects = false;
+	}
+
+	public void SetMode_BuildWall() {
+		//Wall is not a Tile! Wall is an Installed Object
+		buildModeIsObjects = true;
+
 	}
 }
