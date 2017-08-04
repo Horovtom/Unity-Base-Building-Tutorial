@@ -1,11 +1,11 @@
 fileFormatVersion: 2
 guid: be24d0115372c4549b8bca67d2088353
-timeCreated: 1501861153
+timeCreated: 1501865317
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - circleCursor: {fileID: 1000011829108838, guid: ff9e4d606a773014487a7aef93ec756d,
+  - circleCursorPrefab: {fileID: 1000012369865658, guid: ff9e4d606a773014487a7aef93ec756d,
       type: 2}
   executionOrder: 0
   icon: {instanceID: 0}

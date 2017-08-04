@@ -52,6 +52,7 @@
      <Compile Include="Assets\Models\Tile.cs" />
      <Compile Include="Assets\Models\TileType.cs" />
      <Compile Include="Assets\Models\World.cs" />
+     <Compile Include="Assets\Utilities\SimplePool.cs" />
      <None Include="Assets\Images\Sourced\sources.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
