@@ -11,15 +11,15 @@ public class Tile {
 		Floor
 	};
 
-	TileType type = TileType.Empty;
+	TileType _type = TileType.Empty;
 
 	public TileType Type {
 		get {
-			return type;
+			return _type;
 		}
 		set {
-			if (type != value) {
-				type = value;
+			if (_type != value) {
+				_type = value;
 				//Call the callback and let things know we've changed
 				if (cbTileTypeChanged != null)
 					cbTileTypeChanged(this);
@@ -45,18 +45,29 @@ public class Tile {
 		}
 	}
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Tile"/> class.
+	/// </summary>
+	/// <param name="world">A World instance.</param>
+	/// <param name="x">The x coordinate.</param>
+	/// <param name="y">The y coordinate.</param>
 	public Tile(World world, int x, int y) {
 		this.world = world;
 		this.x = x;
 		this.y = y;
 	}
 
-
+	/// <summary>
+	/// Registers the tile type changed callback.
+	/// </summary>
 	public void RegisterTileTypeChangedCallback(Action<Tile> callback) {
 		//It behaves like an array, you can call this function multiple times
 		this.cbTileTypeChanged += callback;
 	} 
 
+	/// <summary>
+	/// Unregisters the tile type changed callback.
+	/// </summary>
 	public void UnregisterTileTypeChangedCallback(Action<Tile> callback) {
 		this.cbTileTypeChanged -= callback;
 	} 

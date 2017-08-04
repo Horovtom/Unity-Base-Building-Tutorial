@@ -22,6 +22,7 @@ public class WorldController : MonoBehaviour {
 
 				tile_gameobject.name = "Tile(" + x + "," + y + ")";
 				tile_gameobject.transform.position = new Vector3(tile_dataobject.X, tile_dataobject.Y, 0);
+				tile_gameobject.transform.SetParent(this.transform, true);
 
 				tile_gameobject.AddComponent<SpriteRenderer>();
 				//Just save lambda there
