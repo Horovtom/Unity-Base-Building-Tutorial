@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class MouseController : MonoBehaviour {
 
 	public GameObject circleCursorPrefab;
 
+	Tile.TileType buildModeTile = Tile.TileType.Floor;
+
 	Vector3 lastFramePosition;
 	Vector3 currFramePosition;
 	Vector3 dragStartPosition;
+	bool isDragging = false;
 
 	List<GameObject> dragPreviewGameObjects;
 
@@ -31,10 +35,17 @@ public class MouseController : MonoBehaviour {
 	}*/
 
 	void UpdateDragging() {
+		
+
 		//Start drag
-		if (Input.GetMouseButtonDown(0)) {
+		if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject()) {
 			dragStartPosition = currFramePosition;
+			isDragging = true;
 		}
+
+		//Return if not dragging
+		if (!isDragging)
+			return;
 
 		#region Update start and end variables
 		int startX = Mathf.FloorToInt(dragStartPosition.x);
@@ -53,7 +64,7 @@ public class MouseController : MonoBehaviour {
 		}
 		#endregion
 
-		//Clean up old drag previes
+		//Clean up old drag previews
 		while(dragPreviewGameObjects.Count > 0) {
 			GameObject go = dragPreviewGameObjects[0];
 			dragPreviewGameObjects.RemoveAt(0);
@@ -81,12 +92,13 @@ public class MouseController : MonoBehaviour {
 					ClickedOnTile(t);
 				}
 			}
+			isDragging = false;
 		}
 	}
 
 	void ClickedOnTile(Tile t) {
 		if (t != null)
-		t.Type = Tile.TileType.Floor;
+		t.Type = buildModeTile;
 	}
 
 	void UpdateCameraMovement() {
@@ -114,5 +126,11 @@ public class MouseController : MonoBehaviour {
 		lastFramePosition.z = 0;
 	}
 
+	public void SetMode_BuildFloor() {
+		buildModeTile = Tile.TileType.Floor;
+	}
 
+	public void SetMode_Bulldoze() {
+		buildModeTile = Tile.TileType.Empty;
+	}
 }

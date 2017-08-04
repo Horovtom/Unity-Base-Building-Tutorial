@@ -1,22 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Controllers\MouseController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\UI\AutomaticVerticalSize.cs">
     <Files>
-      <File FileName="Assets\Controllers\WorldController.cs" Line="24" Column="63" />
+      <File FileName="Assets\Controllers\WorldController.cs" Line="71" Column="3" />
       <File FileName="Assets\Models\Tile.cs" Line="50" Column="16" />
-      <File FileName="Assets\Controllers\MouseController.cs" Line="11" Column="17" />
+      <File FileName="Assets\Controllers\MouseController.cs" Line="99" Column="82" />
+      <File FileName="Assets\Models\World.cs" Line="31" Column="4" />
+      <File FileName="Assets\UI\AutomaticVerticalSize.cs" Line="3" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Unity-Base-Building-Tutorial" expanded="True">
-            <Node name="Assembly-CSharp" expanded="True">
-              <Node name="Controllers" expanded="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
