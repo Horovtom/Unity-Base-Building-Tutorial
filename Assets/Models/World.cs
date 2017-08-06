@@ -1,26 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class World {
 
 	Tile[,] tiles;
-	int width, height;
+
+	Dictionary<string, InstalledObject> installedObjectPrototypes;
 
 	public int Width {
-		get {
-			return width;
-		}
+		get;
+		protected set;
 	}
 
 	public int Height {
-		get {
-			return height;
-		}
+		get;
+		protected set;
 	}
 
-	public World(int width = 100, int height = 100) {
-		this.width = width;
-		this.height = height;
+	public World (int width = 100, int height = 100) {
+		this.Width = width;
+		this.Height = height;
 
 		tiles = new Tile[width, height];
 
@@ -31,19 +31,36 @@ public class World {
 		}
 
 		Debug.Log("World created with " + (width * height) + " tiles.");
+
+		CreateInstalledObjectPrototypes();
+
 	}
 
-	public Tile GetTileAt(int x, int y) {
-		if (x > width || x < 0 || y > height || y < 0) {
+	void CreateInstalledObjectPrototypes () {
+		installedObjectPrototypes = new Dictionary<string, InstalledObject>();
+
+		installedObjectPrototypes.Add("Wall", 
+			InstalledObject.CreatePrototype(
+				"Wall",
+				0, //Tile is impassable
+				1,
+				1
+			)
+		);
+	}
+
+
+	public Tile GetTileAt (int x, int y) {
+		if (x > Width || x < 0 || y > Height || y < 0) {
 			//Debug.LogError("Tile (" + x + ", " + y + ") is out of range!");
 			return null;
 		}
 		return tiles[x, y];
 	}
 
-	public void RandomizeTiles() {
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+	public void RandomizeTiles () {
+		for (int x = 0; x < Width; x++) {
+			for (int y = 0; y < Height; y++) {
 				if (Random.Range(0, 2) == 0) {
 					tiles[x, y].Type = TileType.Floor;
 				} else {

@@ -26,7 +26,7 @@ public class Tile {
 	LooseObject looseObject;
 	InstalledObject installedObject;
 
-	World world; 
+	World world;
 	int x, y;
 
 	public int X {
@@ -47,7 +47,7 @@ public class Tile {
 	/// <param name="world">A World instance.</param>
 	/// <param name="x">The x coordinate.</param>
 	/// <param name="y">The y coordinate.</param>
-	public Tile(World world, int x, int y) {
+	public Tile (World world, int x, int y) {
 		this.world = world;
 		this.x = x;
 		this.y = y;
@@ -56,22 +56,38 @@ public class Tile {
 	/// <summary>
 	/// Registers the tile type changed callback.
 	/// </summary>
-	public void RegisterTileTypeChangedCallback(Action<Tile> callback) {
+	public void RegisterTileTypeChangedCallback (Action<Tile> callback) {
 		//It behaves like an array, you can call this function multiple times
 		this.cbTileTypeChanged += callback;
-	} 
+	}
 
 	/// <summary>
 	/// Unregisters the tile type changed callback.
 	/// </summary>
-	public void UnregisterTileTypeChangedCallback(Action<Tile> callback) {
+	public void UnregisterTileTypeChangedCallback (Action<Tile> callback) {
 		this.cbTileTypeChanged -= callback;
-	} 
+	}
 
+	public bool PlaceObject (InstalledObject objInstance) {
+		if (objInstance == null) {
+			//We are uninstalling whatever was here before.
+			installedObject = null;
+			return true;
+		}
+
+		//objInstance isn't null
+		if (installedObject != null) {
+			Debug.LogError("Trying to assign an installed object to a tile that already has one!");
+			return false;
+		}
+
+		installedObject = objInstance;
+		return true;
+	}
 }
 
 public enum TileType {
 	Empty,
-	Floor
-};
+	Floor}
+;
 

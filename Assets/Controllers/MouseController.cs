@@ -9,6 +9,7 @@ public class MouseController : MonoBehaviour {
 
 	bool buildModeIsObjects = false;
 	TileType buildModeTile = TileType.Floor;
+	string buildModeObjectType;
 
 	Vector3 lastFramePosition;
 	Vector3 currFramePosition;
@@ -101,8 +102,8 @@ public class MouseController : MonoBehaviour {
 		if (t != null) {
 			if (buildModeIsObjects) {
 
-
 				//FIXME: Right now, we're just going to assume walls.
+				//WorldController.Instance.World.PlaceInstalledObject(buildModeObjectType, t);
 
 			} else 
 				t.Type = buildModeTile;
@@ -144,9 +145,9 @@ public class MouseController : MonoBehaviour {
 		buildModeIsObjects = false;
 	}
 
-	public void SetMode_BuildWall() {
+	public void SetMode_BuildInstalledObject(string objectType) {
 		//Wall is not a Tile! Wall is an Installed Object
 		buildModeIsObjects = true;
-
+		buildModeObjectType = objectType;
 	}
 }
