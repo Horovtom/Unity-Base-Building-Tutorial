@@ -23,13 +23,16 @@ public class Tile {
 		}
 	}
 
-	LooseObject looseObject;
-	public InstalledObject InstalledObject {
+	Inventory inventory;
+	public Furniture furniture {
 		get;
 		protected set;
 	}
 
-	World world;
+	public World world {
+		get;
+		protected set;
+	}
 	int x, y;
 
 	public int X {
@@ -71,20 +74,20 @@ public class Tile {
 		this.cbTileTypeChanged -= callback;
 	}
 
-	public bool PlaceObject (InstalledObject objInstance) {
+	public bool PlaceObject (Furniture objInstance) {
 		if (objInstance == null) {
 			//We are uninstalling whatever was here before.
-			InstalledObject = null;
+			furniture = null;
 			return true;
 		}
 
 		//objInstance isn't null
-		if (InstalledObject != null) {
-			Debug.LogError("Trying to assign an installed object to a tile that already has one!");
+		if (furniture != null) {
+			Debug.LogError("Trying to assign a furniture to a tile that already has one!");
 			return false;
 		}
 
-		InstalledObject = objInstance;
+		furniture = objInstance;
 		return true;
 	}
 }
