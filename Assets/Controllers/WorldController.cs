@@ -4,13 +4,17 @@ using System.Collections.Generic;
 
 public class WorldController : MonoBehaviour {
 
+
 	public static WorldController Instance {
 		get;
 		protected set;
 	}
-	public Sprite floorSprite;
+
+	public Sprite wallSprite; //FIXME
+	public Sprite floorSprite;//FIXME
 
 	Dictionary<Tile, GameObject> tileGameObjectMap;
+	Dictionary<InstalledObject, GameObject> installedObjectGameObjectmap;
 
 	public World World {
 		get; 
@@ -21,6 +25,7 @@ public class WorldController : MonoBehaviour {
 	void Start () {
 
 		tileGameObjectMap = new Dictionary<Tile, GameObject>();
+		installedObjectGameObjectmap = new Dictionary<InstalledObject, GameObject>();
 		if (Instance != null) {
 			Debug.LogError("There should be only one WorldController!!!");
 		}
@@ -28,6 +33,8 @@ public class WorldController : MonoBehaviour {
 
 		World = new World();
 
+		//Registering callback
+		World.RegisterInstalledObjectCreated(OnInstalledObjectCreated);
 
 		//Create a GameObject for each of our tiles, so they show visually
 		for (int x = 0; x < World.Width; x++) {
@@ -85,4 +92,28 @@ public class WorldController : MonoBehaviour {
 		return WorldController.Instance.World.GetTileAt(x, y);
 	}
 
+	public void OnInstalledObjectCreated(InstalledObject obj) {
+		//Create a visual GameObject linked to this data.
+		GameObject obj_go = new GameObject();
+
+		//FIXME: Does not consider multi-tile objects nor rotated objects
+
+		installedObjectGameObjectmap.Add(obj, obj_go);
+		obj_go.name = obj.ObjectType + "(" + obj.Tile.X + ", " + obj.Tile.Y + ")";
+		obj_go.transform.position = new Vector3(obj.Tile.X, obj.Tile.Y, 0);
+		obj_go.transform.SetParent(this.transform, true);
+
+		//FIXME: We assume that the object must be a wall, so use the hardcoded reference to the wall sprite.
+		obj_go.AddComponent<SpriteRenderer>().sprite = wallSprite; 
+
+		obj_go.GetComponent<SpriteRenderer>().sortingLayerName = "InstalledObjects";
+
+		obj.RegisterOnChengedCallback(OnInstalledObjectChanged);
+
+	}
+
+	public void OnInstalledObjectChanged(InstalledObject obj) {
+		//FIXME
+		Debug.LogError("OnInstalledObjectChanged - not implemented yet");
+	}
 }

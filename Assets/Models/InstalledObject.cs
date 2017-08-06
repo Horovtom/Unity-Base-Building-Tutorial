@@ -1,13 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class InstalledObject {
 
-	Tile tile;
+	public Tile Tile {
+		get;
+		protected set;
+	}
 
-	string objectType;
+	public string ObjectType {
+		get;
+		protected set;
+	}
 
 	int width, height;
+
+	Action<InstalledObject> cbOnChanged;
 
 	//This is a multiplier. So a value of 2 here, means you move twice as slowly. (i.e. at half speed)
 	float movementCost;
@@ -21,7 +30,7 @@ public class InstalledObject {
 	//It doesnt ask for a tile.
 	static public InstalledObject CreatePrototype (string objectType, float movementCost = 1f, int width = 1, int height = 1) {
 		InstalledObject obj = new InstalledObject();
-		obj.objectType = objectType;
+		obj.ObjectType = objectType;
 		obj.movementCost = movementCost;
 		obj.width = width;
 		obj.height = height;
@@ -29,15 +38,15 @@ public class InstalledObject {
 		return obj;
 	}
 
-	static public InstalledObject PlaceObject (InstalledObject proto, Tile tile) {
+	static public InstalledObject PlaceInstance (InstalledObject proto, Tile tile) {
 		InstalledObject obj = new InstalledObject();
 
-		obj.objectType = proto.objectType;
+		obj.ObjectType = proto.ObjectType;
 		obj.movementCost = proto.movementCost;
 		obj.width = proto.width;
 		obj.height = proto.height;
 
-		obj.tile = tile;
+		obj.Tile = tile;
 
 		//FIXME:This assumes we are 1x1!
 		if(!tile.PlaceObject(obj)) {
@@ -51,6 +60,11 @@ public class InstalledObject {
 		return obj;
 	}
 
+	public void RegisterOnChengedCallback(Action<InstalledObject> callbackFunc ) {
+		cbOnChanged += callbackFunc;
+	}
 
-
+	public void UnregisterOnChengedCallback(Action<InstalledObject> callbackFunc ) {
+		cbOnChanged -= callbackFunc;
+	}
 }

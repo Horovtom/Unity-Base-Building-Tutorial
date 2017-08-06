@@ -103,7 +103,7 @@ public class MouseController : MonoBehaviour {
 			if (buildModeIsObjects) {
 
 				//FIXME: Right now, we're just going to assume walls.
-				//WorldController.Instance.World.PlaceInstalledObject(buildModeObjectType, t);
+				WorldController.Instance.World.PlaceInstalledObject(buildModeObjectType, t);
 
 			} else 
 				t.Type = buildModeTile;
