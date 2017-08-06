@@ -47,7 +47,8 @@ public class World {
 				"Wall",
 				0, //Tile is impassable
 				1,
-				1
+				1,
+				true //Links to neighbours and "sort of" becomes part of a large object
 			)
 		);
 	}

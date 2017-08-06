@@ -16,6 +16,11 @@ public class InstalledObject {
 
 	int width, height;
 
+	public bool LinksToNeighbour {
+		get;
+		protected set;
+	}
+
 	Action<InstalledObject> cbOnChanged;
 
 	//This is a multiplier. So a value of 2 here, means you move twice as slowly. (i.e. at half speed)
@@ -28,12 +33,13 @@ public class InstalledObject {
 
 	//This is used by our object factory to create the prototypical object
 	//It doesnt ask for a tile.
-	static public InstalledObject CreatePrototype (string objectType, float movementCost = 1f, int width = 1, int height = 1) {
+	static public InstalledObject CreatePrototype (string objectType, float movementCost = 1f, int width = 1, int height = 1, bool linksToNeighbour = false) {
 		InstalledObject obj = new InstalledObject();
 		obj.ObjectType = objectType;
 		obj.movementCost = movementCost;
 		obj.width = width;
 		obj.height = height;
+		obj.LinksToNeighbour = linksToNeighbour;
 
 		return obj;
 	}
@@ -45,6 +51,7 @@ public class InstalledObject {
 		obj.movementCost = proto.movementCost;
 		obj.width = proto.width;
 		obj.height = proto.height;
+		obj.LinksToNeighbour = proto.LinksToNeighbour;
 
 		obj.Tile = tile;
 

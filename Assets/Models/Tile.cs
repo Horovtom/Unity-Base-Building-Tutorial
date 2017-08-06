@@ -24,7 +24,10 @@ public class Tile {
 	}
 
 	LooseObject looseObject;
-	InstalledObject installedObject;
+	public InstalledObject InstalledObject {
+		get;
+		protected set;
+	}
 
 	World world;
 	int x, y;
@@ -71,17 +74,17 @@ public class Tile {
 	public bool PlaceObject (InstalledObject objInstance) {
 		if (objInstance == null) {
 			//We are uninstalling whatever was here before.
-			installedObject = null;
+			InstalledObject = null;
 			return true;
 		}
 
 		//objInstance isn't null
-		if (installedObject != null) {
+		if (InstalledObject != null) {
 			Debug.LogError("Trying to assign an installed object to a tile that already has one!");
 			return false;
 		}
 
-		installedObject = objInstance;
+		InstalledObject = objInstance;
 		return true;
 	}
 }

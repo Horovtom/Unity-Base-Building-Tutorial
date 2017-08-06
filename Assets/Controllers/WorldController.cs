@@ -10,11 +10,13 @@ public class WorldController : MonoBehaviour {
 		protected set;
 	}
 
-	public Sprite wallSprite; //FIXME
-	public Sprite floorSprite;//FIXME
+	public Sprite floorSprite;
+//FIXME
 
 	Dictionary<Tile, GameObject> tileGameObjectMap;
-	Dictionary<InstalledObject, GameObject> installedObjectGameObjectmap;
+	Dictionary<InstalledObject, GameObject> installedObjectGameObjectMap;
+
+	Dictionary<string, Sprite> installedObjectSprites;
 
 	public World World {
 		get; 
@@ -24,8 +26,18 @@ public class WorldController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+
+		installedObjectSprites = new Dictionary<string, Sprite>();
+		Sprite[] sprites = Resources.LoadAll<Sprite>("Images/InstalledObjects");
+
+		foreach (Sprite s in sprites) {
+			installedObjectSprites[s.name] = s;
+		}
+
+
 		tileGameObjectMap = new Dictionary<Tile, GameObject>();
-		installedObjectGameObjectmap = new Dictionary<InstalledObject, GameObject>();
+
+		installedObjectGameObjectMap = new Dictionary<InstalledObject, GameObject>();
 		if (Instance != null) {
 			Debug.LogError("There should be only one WorldController!!!");
 		}
@@ -63,7 +75,7 @@ public class WorldController : MonoBehaviour {
 		
 	}
 
-	void OnTileTypeChanged(Tile tile_data) {
+	void OnTileTypeChanged (Tile tile_data) {
 		if (tileGameObjectMap.ContainsKey(tile_data) == false) {
 			Debug.LogError("tileGameObjectMap doesn't contain the tile_data -- did you forget to add the tile to the dictionary? Or maybe forget to unregister a callback?");
 			return;
@@ -85,26 +97,26 @@ public class WorldController : MonoBehaviour {
 		}
 	}
 
-	public Tile GetTileAtWorldCoord(Vector3 coord) {
+	public Tile GetTileAtWorldCoord (Vector3 coord) {
 		int x = Mathf.FloorToInt(coord.x);
 		int y = Mathf.FloorToInt(coord.y);
 
 		return WorldController.Instance.World.GetTileAt(x, y);
 	}
 
-	public void OnInstalledObjectCreated(InstalledObject obj) {
+	public void OnInstalledObjectCreated (InstalledObject obj) {
 		//Create a visual GameObject linked to this data.
 		GameObject obj_go = new GameObject();
 
 		//FIXME: Does not consider multi-tile objects nor rotated objects
 
-		installedObjectGameObjectmap.Add(obj, obj_go);
+		installedObjectGameObjectMap.Add(obj, obj_go);
 		obj_go.name = obj.ObjectType + "(" + obj.Tile.X + ", " + obj.Tile.Y + ")";
 		obj_go.transform.position = new Vector3(obj.Tile.X, obj.Tile.Y, 0);
 		obj_go.transform.SetParent(this.transform, true);
 
 		//FIXME: We assume that the object must be a wall, so use the hardcoded reference to the wall sprite.
-		obj_go.AddComponent<SpriteRenderer>().sprite = wallSprite; 
+		obj_go.AddComponent< SpriteRenderer>().sprite = GetSpriteForInstalledObject(obj); 
 
 		obj_go.GetComponent<SpriteRenderer>().sortingLayerName = "InstalledObjects";
 
@@ -112,7 +124,35 @@ public class WorldController : MonoBehaviour {
 
 	}
 
-	public void OnInstalledObjectChanged(InstalledObject obj) {
+	Sprite GetSpriteForInstalledObject (InstalledObject obj) {
+		int x = obj.Tile.X, y = obj.Tile.Y;
+		if (obj.LinksToNeighbour == false) {
+			return installedObjectSprites[obj.ObjectType];
+		} else {
+			//otherwise the sprite name is more complicated.
+
+			string spriteName = obj.ObjectType + "_";
+
+			//Check for neighbours North, East, South, West
+			Tile t;
+			t = World.GetTileAt(x, y + 1);
+			if (t != null && t.InstalledObject != null && t.InstalledObject.ObjectType == obj.ObjectType)
+				spriteName += "N";
+			t = World.GetTileAt(x + 1, y);
+			if (t != null && t.InstalledObject != null && t.InstalledObject.ObjectType == obj.ObjectType)
+				spriteName += "E";
+			t = World.GetTileAt(x, y - 1);
+			if (t != null && t.InstalledObject != null && t.InstalledObject.ObjectType == obj.ObjectType)
+				spriteName += "S";
+			t = World.GetTileAt(x - 1, y);
+			if (t != null && t.InstalledObject != null && t.InstalledObject.ObjectType == obj.ObjectType)
+				spriteName += "W";
+
+			return installedObjectSprites[spriteName];
+		}
+	}
+
+	public void OnInstalledObjectChanged (InstalledObject obj) {
 		//FIXME
 		Debug.LogError("OnInstalledObjectChanged - not implemented yet");
 	}
