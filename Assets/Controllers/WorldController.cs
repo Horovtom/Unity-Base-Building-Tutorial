@@ -25,7 +25,7 @@ public class WorldController : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Start () {
+	void OnEnable () {
 
 
 		LoadSprites();
@@ -59,11 +59,12 @@ public class WorldController : MonoBehaviour {
 				//Add a Sprite Renderer
 				//Add a default sprite for empty tiles.
 				tile_gameobject.AddComponent<SpriteRenderer>().sprite = emptySprite;
-				//Just save lambda there
-				tile_dataobject.RegisterTileTypeChangedCallback(OnTileTypeChanged);
+
 
 			}
 		}
+
+		World.RegisterTileChanged(OnTileChanged);
 
 		//Center the Camera
 		Camera.main.transform.position = new Vector3(World.Width /2, World.Height/2, Camera.main.transform.position.z);
@@ -76,7 +77,7 @@ public class WorldController : MonoBehaviour {
 		
 	}
 
-	void OnTileTypeChanged (Tile tile_data) {
+	void OnTileChanged (Tile tile_data) {
 		if (tileGameObjectMap.ContainsKey(tile_data) == false) {
 			Debug.LogError("tileGameObjectMap doesn't contain the tile_data -- " +
 				"did you forget to add the tile to the dictionary? Or maybe forget to unregister a callback?");

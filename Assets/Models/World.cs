@@ -8,7 +8,7 @@ public class World {
 	Tile[,] tiles;
 
 	Action<Furniture> cbFurnitureCreated;
-
+	Action<Tile> cbTileChanged;
 	Dictionary<string, Furniture> furniturePrototypes;
 
 	public int Width {
@@ -30,6 +30,7 @@ public class World {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				tiles[x, y] = new Tile(this, x, y);
+				tiles[x, y].RegisterTileTypeChangedCallback(OnTileChanged);
 			}
 		}
 
@@ -100,5 +101,19 @@ public class World {
 
 	public void UnregisterFurnitureCreated(Action<Furniture> callbackFunc) {
 		cbFurnitureCreated -= callbackFunc;
+	}
+
+	public void RegisterTileChanged(Action<Tile> callbackFunc) {
+		cbTileChanged += callbackFunc;
+	}
+
+	public void UnregisterTileChanged(Action<Tile> callbackFunc) {
+		cbTileChanged -= callbackFunc;
+	}
+
+	void OnTileChanged(Tile t) {
+		if (cbTileChanged == null)
+			return;
+		cbTileChanged(t);
 	}
 }

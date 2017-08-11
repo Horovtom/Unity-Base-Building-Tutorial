@@ -4,7 +4,7 @@ using System;
 
 public class Tile {
 
-	Action<Tile> cbTileTypeChanged;
+	Action<Tile> cbTileChanged;
 	
 
 	TileType _type = TileType.Empty;
@@ -17,8 +17,8 @@ public class Tile {
 			if (_type != value) {
 				_type = value;
 				//Call the callback and let things know we've changed
-				if (cbTileTypeChanged != null)
-					cbTileTypeChanged(this);
+				if (cbTileChanged != null)
+					cbTileChanged(this);
 			}
 		}
 	}
@@ -64,14 +64,14 @@ public class Tile {
 	/// </summary>
 	public void RegisterTileTypeChangedCallback (Action<Tile> callback) {
 		//It behaves like an array, you can call this function multiple times
-		this.cbTileTypeChanged += callback;
+		this.cbTileChanged += callback;
 	}
 
 	/// <summary>
 	/// Unregisters the tile type changed callback.
 	/// </summary>
 	public void UnregisterTileTypeChangedCallback (Action<Tile> callback) {
-		this.cbTileTypeChanged -= callback;
+		this.cbTileChanged -= callback;
 	}
 
 	public bool PlaceObject (Furniture objInstance) {

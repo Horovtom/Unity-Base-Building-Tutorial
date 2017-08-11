@@ -48,6 +48,10 @@ public class Furniture {
 	}
 
 	static public Furniture PlaceInstance (Furniture proto, Tile tile) {
+		if (tile == null) {
+			Debug.LogError("PlaceInstance -- tile is null");
+		}
+
 		if (proto.funcPositionValidation(tile) == false) {
 			Debug.LogError("PlaceInstance -- Position Validity Function returned FALSE.");
 			return null;
