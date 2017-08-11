@@ -54,7 +54,16 @@
      <Compile Include="Assets\Models\World.cs" />
      <Compile Include="Assets\UI\AutomaticVerticalSize.cs" />
      <Compile Include="Assets\Utilities\SimplePool.cs" />
+     <None Include="Assets\Resources\Fonts\Cubellan_v_0_7\Read_Me.txt" />
      <None Include="Assets\UI\Kenney Assets\License.txt" />
+     <None Include="Assets\Resources\Fonts\osp.foundry.alfphabet\OFL-1.1.txt" />
+     <None Include="Assets\Resources\Fonts\osp.foundry.alfphabet\OFL-FAQ.txt" />
+     <None Include="Assets\Resources\Fonts\Cubellan_v_0_7\Cubellan_License_SIL_OFL.txt" />
+     <None Include="Assets\Resources\Fonts\tgl\OFL-FAQ.txt" />
+     <None Include="Assets\Resources\Fonts\osp.foundry.alfphabet\README.txt" />
+     <None Include="Assets\Resources\Fonts\tgl\Open Font License.txt" />
+     <None Include="Assets\Resources\Images\Furniture\README.txt" />
+     <None Include="Assets\Resources\Fonts\osp.foundry.alfphabet\FONTLOG.txt" />
      <None Include="Assets\Resources\Images\Sourced\sources.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Programs/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

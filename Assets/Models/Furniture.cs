@@ -23,6 +23,8 @@ public class Furniture {
 
 	Action<Furniture> cbOnChanged;
 
+	Func<Tile, bool> funcPositionValidation;
+
 	//This is a multiplier. So a value of 2 here, means you move twice as slowly. (i.e. at half speed)
 	float movementCost;
 
@@ -40,11 +42,19 @@ public class Furniture {
 		obj.width = width;
 		obj.height = height;
 		obj.LinksToNeighbour = linksToNeighbour;
+		obj.funcPositionValidation = obj.IsValidPosition;
 
 		return obj;
 	}
 
 	static public Furniture PlaceInstance (Furniture proto, Tile tile) {
+		if (proto.funcPositionValidation(tile) == false) {
+			Debug.LogError("PlaceInstance -- Position Validity Function returned FALSE.");
+			return null;
+		}
+
+		//We know our placement destination is valid
+
 		Furniture obj = new Furniture();
 
 		obj.ObjectType = proto.ObjectType;
@@ -100,5 +110,28 @@ public class Furniture {
 
 	public void UnregisterOnChangedCallback(Action<Furniture> callbackFunc ) {
 		cbOnChanged -= callbackFunc;
+	}
+
+	public bool IsValidPosition(Tile t) {
+		//Make sure tile is FLOOR
+		if (t.Type != TileType.Floor) 
+			return false;
+		
+
+		//Make sure tile doesn't already have furniture on
+		if (t.furniture != null)
+			return false;
+
+
+		return true;
+	}
+
+	public bool IsValidPosition_Door(Tile t) {
+		if (IsValidPosition(t) == false)
+			return false;
+
+		//Make sure we have a pair of E/W walls or N/S walls
+
+		return true;
 	}
 }

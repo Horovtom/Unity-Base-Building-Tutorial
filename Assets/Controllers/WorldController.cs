@@ -11,6 +11,7 @@ public class WorldController : MonoBehaviour {
 	}
 
 	public Sprite floorSprite;
+	public Sprite emptySprite;
 //FIXME
 
 	Dictionary<Tile, GameObject> tileGameObjectMap;
@@ -55,14 +56,19 @@ public class WorldController : MonoBehaviour {
 				tile_gameobject.transform.position = new Vector3(tile_dataobject.X, tile_dataobject.Y, 0);
 				tile_gameobject.transform.SetParent(this.transform, true);
 
-				tile_gameobject.AddComponent<SpriteRenderer>();
+				//Add a Sprite Renderer
+				//Add a default sprite for empty tiles.
+				tile_gameobject.AddComponent<SpriteRenderer>().sprite = emptySprite;
 				//Just save lambda there
 				tile_dataobject.RegisterTileTypeChangedCallback(OnTileTypeChanged);
 
 			}
 		}
 
-		World.RandomizeTiles();
+		//Center the Camera
+		Camera.main.transform.position = new Vector3(World.Width /2, World.Height/2, Camera.main.transform.position.z);
+
+		//World.RandomizeTiles();
 	}
 
 	// Update is called once per frame
@@ -88,7 +94,7 @@ public class WorldController : MonoBehaviour {
 		if (tile_data.Type == TileType.Floor) {
 			tile_go.GetComponent<SpriteRenderer>().sprite = floorSprite;
 		} else if (tile_data.Type == TileType.Empty) {
-			tile_go.GetComponent<SpriteRenderer>().sprite = null;
+			tile_go.GetComponent<SpriteRenderer>().sprite = emptySprite;
 		} else {
 			Debug.LogError("OnTileTypeChanged - Unrecognized tile type!");
 		}
