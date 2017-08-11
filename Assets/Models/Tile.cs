@@ -35,6 +35,8 @@ public class Tile {
 	}
 	int x, y;
 
+	public Job pendingFurnitureJob;
+
 	public int X {
 		get {
 			return x;

@@ -23,7 +23,7 @@ public class Furniture {
 
 	Action<Furniture> cbOnChanged;
 
-	Func<Tile, bool> funcPositionValidation;
+	public Func<Tile, bool> funcPositionValidation {get; protected set;}
 
 	//This is a multiplier. So a value of 2 here, means you move twice as slowly. (i.e. at half speed)
 	float movementCost;
@@ -42,7 +42,7 @@ public class Furniture {
 		obj.width = width;
 		obj.height = height;
 		obj.LinksToNeighbour = linksToNeighbour;
-		obj.funcPositionValidation = obj.IsValidPosition;
+		obj.funcPositionValidation = obj.__IsValidPosition;
 
 		return obj;
 	}
@@ -116,7 +116,13 @@ public class Furniture {
 		cbOnChanged -= callbackFunc;
 	}
 
-	public bool IsValidPosition(Tile t) {
+	public bool IsValidPosition(Tile t)  {
+		return funcPositionValidation(t);
+	}
+
+	//FIXME: These functions should never be called directly,
+	// so they probably shouldn't be public functions
+	public bool __IsValidPosition(Tile t) {
 		//Make sure tile is FLOOR
 		if (t.Type != TileType.Floor) 
 			return false;
@@ -130,8 +136,8 @@ public class Furniture {
 		return true;
 	}
 
-	public bool IsValidPosition_Door(Tile t) {
-		if (IsValidPosition(t) == false)
+	public bool __IsValidPosition_Door(Tile t) {
+		if (__IsValidPosition(t) == false)
 			return false;
 
 		//Make sure we have a pair of E/W walls or N/S walls

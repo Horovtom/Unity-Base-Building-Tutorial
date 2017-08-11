@@ -50,6 +50,7 @@
      <Compile Include="Assets\Controllers\WorldController.cs" />
      <Compile Include="Assets\Models\Furniture.cs" />
      <Compile Include="Assets\Models\Inventory.cs" />
+     <Compile Include="Assets\Models\Job.cs" />
      <Compile Include="Assets\Models\Tile.cs" />
      <Compile Include="Assets\Models\TileType.cs" />
      <Compile Include="Assets\Models\World.cs" />

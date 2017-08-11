@@ -11,6 +11,11 @@ public class World {
 	Action<Tile> cbTileChanged;
 	Dictionary<string, Furniture> furniturePrototypes;
 
+	//TODO: Most likely this will be replaced with a dedicated class for managing job queues (plural!) that might also 
+	//be semi-static or self initializing or some damn thing.
+	//For now, this is just a PUBLIC meber of world
+	public Queue<Job> jobQueue;
+
 	public int Width {
 		get;
 		protected set;
@@ -22,6 +27,7 @@ public class World {
 	}
 
 	public World (int width = 100, int height = 100) {
+		jobQueue = new Queue<Job>();
 		this.Width = width;
 		this.Height = height;
 
@@ -115,5 +121,9 @@ public class World {
 		if (cbTileChanged == null)
 			return;
 		cbTileChanged(t);
+	}
+
+	public bool IsFurniturePlacementValid(string furnitureType, Tile t) {
+		return furniturePrototypes[furnitureType].IsValidPosition(t);
 	}
 }
