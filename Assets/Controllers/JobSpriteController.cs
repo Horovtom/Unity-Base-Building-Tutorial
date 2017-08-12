@@ -37,7 +37,7 @@ public class JobSpriteController : MonoBehaviour {
 			sr.sprite = fsc.GetSpriteForFurniture(j.jobObjectType);
 		//Set transparency
 		sr.color = new Color(0.7f, 1f, 0.7f, 0.3f);
-		sr.sortingLayerName = "Furniture";
+		sr.sortingLayerName = "Jobs";
 
 		j.RegisterJobCompleteCallback(OnJobEnded);
 		j.RegisterJobCancelCallback(OnJobEnded);

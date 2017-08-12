@@ -6,9 +6,11 @@ using System;
 public class World {
 
 	Tile[,] tiles;
+	List<Character> characters;
 
 	Action<Furniture> cbFurnitureCreated;
 	Action<Tile> cbTileChanged;
+	Action<Character> cbCharacterCreated;
 	Dictionary<string, Furniture> furniturePrototypes;
 
 	//TODO: Most likely this will be replaced with a dedicated class for managing job queues (plural!) that might also 
@@ -45,6 +47,13 @@ public class World {
 
 		CreateFurniturePrototypes();
 
+		characters = new List<Character>();
+	}
+
+	public void CreateCharacter(Tile t) {
+		Character c = new Character(t);
+		if (cbCharacterCreated != null)
+			cbCharacterCreated(c);
 	}
 
 	void CreateFurniturePrototypes () {
@@ -102,6 +111,14 @@ public class World {
 		}
 	}
 
+	public void RegisterCharacterCreated(Action<Character> callbackFunc) {
+		cbCharacterCreated += callbackFunc;
+	}
+
+	public void UnregisterCharacterCreated(Action<Character> callbackFunc) {
+		cbCharacterCreated -= callbackFunc;
+	}
+
 	public void RegisterFurnitureCreated(Action<Furniture> callbackFunc) {
 		cbFurnitureCreated += callbackFunc;
 	}
@@ -135,4 +152,6 @@ public class World {
 		}
 		return furniturePrototypes[objectType];
 	}
+
+
 }

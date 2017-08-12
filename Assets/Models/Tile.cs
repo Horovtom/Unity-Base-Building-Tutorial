@@ -92,6 +92,13 @@ public class Tile {
 		furniture = objInstance;
 		return true;
 	}
+		
+	public bool IsNeighbour(Tile tile, bool diagOkay = false) {
+		if (diagOkay) 
+			return Mathf.Abs(this.X - tile.X) <= 1 && Mathf.Abs(this.Y - tile.Y) <= 1;
+		else
+			return (this.X == tile.X && Mathf.Abs(this.Y - tile.Y) <= 1) || (this.Y == tile.Y && Mathf.Abs(this.X - tile.X) <= 1);
+	}
 }
 
 public enum TileType {
