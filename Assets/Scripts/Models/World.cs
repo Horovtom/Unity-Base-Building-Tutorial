@@ -12,6 +12,10 @@ public class World {
 	Action<Tile> cbTileChanged;
 	Action<Character> cbCharacterCreated;
 	Dictionary<string, Furniture> furniturePrototypes;
+	/// <summary>
+	/// The tile graph used for pathfinding.
+	/// </summary>
+	Path_TileGraph tileGraph;
 
 	//TODO: Most likely this will be replaced with a dedicated class for managing job queues (plural!) that might also 
 	//be semi-static or self initializing or some damn thing.
@@ -83,7 +87,6 @@ public class World {
 
 	public Tile GetTileAt (int x, int y) {
 		if (x > Width || x < 0 || y > Height || y < 0) {
-			//Debug.LogError("Tile (" + x + ", " + y + ") is out of range!");
 			return null;
 		}
 		return tiles[x, y];
@@ -118,6 +121,7 @@ public class World {
 
 		if (cbFurnitureCreated != null) {
 			cbFurnitureCreated(obj);
+			InvalidateTileGraph();
 		}
 	}
 
@@ -145,10 +149,24 @@ public class World {
 		cbTileChanged -= callbackFunc;
 	}
 
+
+	/// <summary>
+	/// Gets called whenever ANY tile changes
+	/// </summary>
 	void OnTileChanged(Tile t) {
 		if (cbTileChanged == null)
 			return;
 		cbTileChanged(t);
+
+		InvalidateTileGraph();
+	}
+
+	/// <summary>
+	/// This should be called whenver a change to the world
+	/// means that our old pathfinding info is invalid.
+	/// </summary>
+	public void InvalidateTileGraph() {
+		tileGraph = null;
 	}
 
 	public bool IsFurniturePlacementValid(string furnitureType, Tile t) {

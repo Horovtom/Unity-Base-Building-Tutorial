@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System;
 
 public class Tile {
 
 	Action<Tile> cbTileChanged;
-	
 
 	TileType _type = TileType.Empty;
 
@@ -34,6 +34,7 @@ public class Tile {
 		}
 	}
 
+
 	Inventory inventory;
 	public Furniture furniture {
 		get;
@@ -51,13 +52,15 @@ public class Tile {
 	public int X {
 		get {
 			return x;
-		}
+		} 
+
 	}
 
 	public int Y {
 		get {
 			return y;
 		}
+	
 	}
 
 	/// <summary>
@@ -109,6 +112,43 @@ public class Tile {
 			return Mathf.Abs(this.X - tile.X) <= 1 && Mathf.Abs(this.Y - tile.Y) <= 1 && (tile.X != this.X && tile.Y != this.Y);
 		else
 			return Mathf.Abs(this.X - tile.X) + Mathf.Abs(this.Y - tile.Y) == 1;
+	}
+
+	ReadOnlyCollection<Tile>[] neighbours;
+
+	/// <summary>
+	/// Gets the neighbours. 
+	/// </summary>
+	/// <returns>The neighbours in an array of size 4 if diagOkay is false (N/E/S/W), 
+	/// or size 8 if diagOkay is true (N/E/S/W/NE/SE/SW/NW). 
+	/// </returns>
+	/// <param name="diagOkay">If set to <c>true</c> diag okay.</param>
+	public ReadOnlyCollection<Tile> GetNeighbours(bool diagOkay = false) {
+		if (neighbours == null)
+			PopulateNeighbours();
+		return neighbours[diagOkay ? 1 : 0];
+	}
+
+	void PopulateNeighbours() {
+		Tile[] neighbours4 = new Tile[4];
+		Tile[] neighbours8 = new Tile[8];
+		int[] xarr, yarr;
+ 
+		xarr = new int[8]{ 0, 1, 0, -1, 1, 1, -1, -1 };
+		yarr = new int[8]{ 1, 0, -1, 0, 1, -1, -1, 1 };
+
+		Tile n;
+
+		for (int i = 0; i < 8; i++) {
+			n = world.GetTileAt(x + xarr[i], y + yarr[i]);
+			if (i < 4)
+				neighbours4[i] = n;
+			neighbours8[i] = n;
+		}
+
+		neighbours = new ReadOnlyCollection<Tile>[2];
+		neighbours[0] = new ReadOnlyCollection<Tile>(neighbours4);
+		neighbours[1] = new ReadOnlyCollection<Tile>(neighbours8);
 	}
 }
 

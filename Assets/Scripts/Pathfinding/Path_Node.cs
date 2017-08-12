@@ -4,7 +4,7 @@ using System.Collections;
 public struct Path_Node<T> {
 
 	public T data;
-	Path_Edge<T>[] edges;
+	public Path_Edge<T>[] edges;
 
 
 }

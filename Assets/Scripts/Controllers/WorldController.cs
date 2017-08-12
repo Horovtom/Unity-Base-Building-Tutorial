@@ -39,8 +39,4 @@ public class WorldController : MonoBehaviour {
 
 		return WorldController.Instance.world.GetTileAt(x, y);
 	}
-
-	public void PathfindingExampleClicked() {
-		world.SetupPathfindingExample();
-	}
 }

@@ -69,4 +69,13 @@ public class BuildModeController : MonoBehaviour {
 		buildModeIsObjects = true;
 		buildModeObjectType = objectType;
 	}
+
+	public void DoPathfindingTest() {
+		WorldController.Instance.world.SetupPathfindingExample();
+	}
+
+	public void DisplayPathfindingDebug() {
+		WorldController.Instance.world.InvalidateTileGraph();
+		new Path_TileGraph(WorldController.Instance.world, true);
+	}
 }

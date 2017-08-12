@@ -51,7 +51,6 @@ public class Furniture {
 	}
 
 	static public Furniture PlaceInstance (Furniture proto, Tile tile) {
-		Debug.Log("I am here");
 		if (tile == null) {
 			Debug.LogError("PlaceInstance -- tile is null");
 		}
