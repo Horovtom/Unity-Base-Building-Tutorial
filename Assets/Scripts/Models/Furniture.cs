@@ -26,7 +26,10 @@ public class Furniture {
 	public Func<Tile, bool> funcPositionValidation {get; protected set;}
 
 	//This is a multiplier. So a value of 2 here, means you move twice as slowly. (i.e. at half speed)
-	float movementCost;
+	public float MovementCost {
+		get;
+		protected set;
+	}
 
 	//TODO: Implement larger objects
 	//TODO: Implement object rotation
@@ -38,7 +41,7 @@ public class Furniture {
 	static public Furniture CreatePrototype (string objectType, float movementCost = 1f, int width = 1, int height = 1, bool linksToNeighbour = false) {
 		Furniture obj = new Furniture();
 		obj.ObjectType = objectType;
-		obj.movementCost = movementCost;
+		obj.MovementCost = movementCost;
 		obj.width = width;
 		obj.height = height;
 		obj.LinksToNeighbour = linksToNeighbour;
@@ -63,7 +66,7 @@ public class Furniture {
 		Furniture obj = new Furniture();
 
 		obj.ObjectType = proto.ObjectType;
-		obj.movementCost = proto.movementCost;
+		obj.MovementCost = proto.MovementCost;
 		obj.width = proto.width;
 		obj.height = proto.height;
 		obj.LinksToNeighbour = proto.LinksToNeighbour;

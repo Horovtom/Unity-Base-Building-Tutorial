@@ -9,6 +9,17 @@ public class Tile {
 
 	TileType _type = TileType.Empty;
 
+	public float MovementCost {
+		get {
+			if (Type == TileType.Empty)
+				return 0;
+			else if (furniture == null)
+				return 1;
+			else
+				return furniture.MovementCost;
+		}
+	}
+
 	public TileType Type {
 		get {
 			return _type;
@@ -94,10 +105,10 @@ public class Tile {
 	}
 		
 	public bool IsNeighbour(Tile tile, bool diagOkay = false) {
-		if (diagOkay) 
-			return Mathf.Abs(this.X - tile.X) <= 1 && Mathf.Abs(this.Y - tile.Y) <= 1;
+		if (diagOkay)
+			return Mathf.Abs(this.X - tile.X) <= 1 && Mathf.Abs(this.Y - tile.Y) <= 1 && (tile.X != this.X && tile.Y != this.Y);
 		else
-			return (this.X == tile.X && Mathf.Abs(this.Y - tile.Y) <= 1) || (this.Y == tile.Y && Mathf.Abs(this.X - tile.X) <= 1);
+			return Mathf.Abs(this.X - tile.X) + Mathf.Abs(this.Y - tile.Y) == 1;
 	}
 }
 
