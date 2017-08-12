@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b1a0734e1ac0e834caaadb3beab9fb4c
+timeCreated: 1501865317
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - circleCursorPrefab: {fileID: 1000012369865658, guid: ff9e4d606a773014487a7aef93ec756d,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
