@@ -25,12 +25,13 @@ public class BuildModeController : MonoBehaviour {
 			// Can we build the furniture in the selected tile?
 			//Run the ValidPlacement function!
 
-			if (WorldController.Instance.world.IsFurniturePlacementValid(buildModeObjectType, t)
+			string furnitureType = buildModeObjectType;
+
+			if (WorldController.Instance.world.IsFurniturePlacementValid(furnitureType, t)
 			     && t.pendingFurnitureJob == null) {
 				//This tile is valid for this furniture
 				//Create a job for it to be build
 
-				string furnitureType = buildModeObjectType;
 				Job j = new Job(t, furnitureType, (theJob) => {
 					WorldController.Instance.world.PlaceFurniture(furnitureType, theJob.tile);
 					t.pendingFurnitureJob = null;

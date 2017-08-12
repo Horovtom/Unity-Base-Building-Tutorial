@@ -50,10 +50,20 @@ public class World {
 		characters = new List<Character>();
 	}
 
-	public void CreateCharacter(Tile t) {
+	public void Update(float deltaTime) {
+		foreach(Character c in characters) {
+			c.Update(deltaTime);
+		}
+	}
+
+	public Character CreateCharacter(Tile t) {
 		Character c = new Character(t);
+	
 		if (cbCharacterCreated != null)
 			cbCharacterCreated(c);
+
+		characters.Add(c);
+		return c;
 	}
 
 	void CreateFurniturePrototypes () {

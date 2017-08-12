@@ -16,10 +16,11 @@ public class Job {
 	Action<Job> cbJobComplete;
 	Action<Job> cbJobCancel;
 
-	public Job(Tile t, string jobObjectType, Action<Job> cbJobComplete,float jobTime = 1f) {
+	public Job(Tile t, string jobObjectType, Action<Job> cbJobComplete, float jobTime = 1f) {
 		this.tile = t;
 		this.jobTime = jobTime;
 		this.jobObjectType = jobObjectType;
+		this.cbJobComplete += cbJobComplete;
 	}
 
 	public void RegisterJobCompleteCallback(Action<Job> cb) {
