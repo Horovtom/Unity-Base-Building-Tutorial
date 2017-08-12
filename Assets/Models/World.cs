@@ -14,7 +14,8 @@ public class World {
 	//TODO: Most likely this will be replaced with a dedicated class for managing job queues (plural!) that might also 
 	//be semi-static or self initializing or some damn thing.
 	//For now, this is just a PUBLIC meber of world
-	public Queue<Job> jobQueue;
+
+	public JobQueue jobQueue;
 
 	public int Width {
 		get;
@@ -27,7 +28,7 @@ public class World {
 	}
 
 	public World (int width = 100, int height = 100) {
-		jobQueue = new Queue<Job>();
+		jobQueue = new JobQueue();
 		this.Width = width;
 		this.Height = height;
 
@@ -125,5 +126,13 @@ public class World {
 
 	public bool IsFurniturePlacementValid(string furnitureType, Tile t) {
 		return furniturePrototypes[furnitureType].IsValidPosition(t);
+	}
+
+	public Furniture GetFurniturePrototype(string objectType ) {
+		if (furniturePrototypes.ContainsKey(objectType) == false) {
+			Debug.LogError("No furniture with type: " + objectType);
+			return null;
+		}
+		return furniturePrototypes[objectType];
 	}
 }

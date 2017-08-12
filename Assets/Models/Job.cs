@@ -8,13 +8,18 @@ public class Job {
 
 	public Tile tile {get; protected set;}
 	float jobTime;
+	public string jobObjectType {
+		get;
+		protected set;
+	}
 
 	Action<Job> cbJobComplete;
 	Action<Job> cbJobCancel;
 
-	public Job(Tile t, Action<Job> cbJobComplete,float jobTime = 1f) {
+	public Job(Tile t, string jobObjectType, Action<Job> cbJobComplete,float jobTime = 1f) {
 		this.tile = t;
 		this.jobTime = jobTime;
+		this.jobObjectType = jobObjectType;
 	}
 
 	public void RegisterJobCompleteCallback(Action<Job> cb) {
@@ -22,8 +27,17 @@ public class Job {
 	}
 
 
-	public void RegisterJobancelCallback(Action<Job> cb) {
+	public void RegisterJobCancelCallback(Action<Job> cb) {
 		this.cbJobCancel += cb;
+	}
+
+	public void UnregisterJobCompleteCallback(Action<Job> cb) {
+		this.cbJobComplete -= cb;
+	}
+
+
+	public void UnregisterJobCancelCallback(Action<Job> cb) {
+		this.cbJobCancel -= cb;
 	}
 
 	public void DoWork(float workTime) {

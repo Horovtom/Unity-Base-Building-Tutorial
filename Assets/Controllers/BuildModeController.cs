@@ -13,58 +13,57 @@ public class BuildModeController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	}
-		
-	public void DoBuild(Tile t) {
+
+	public void DoBuild (Tile t) {
 		if (t == null)
 			return;
-			if (buildModeIsObjects) {
+		if (buildModeIsObjects) {
 
-				//This instantly builds the furniture:
-				//WorldController.Instance.World.PlaceFurniture(buildModeObjectType, t);
+			//This instantly builds the furniture:
+			//WorldController.Instance.World.PlaceFurniture(buildModeObjectType, t);
 
-				// Can we build the furniture in the selected tile?
-				//Run the ValidPlacement function!
+			// Can we build the furniture in the selected tile?
+			//Run the ValidPlacement function!
 
-				if (	WorldController.Instance.world.IsFurniturePlacementValid(buildModeObjectType, t)
-					&& 	t.pendingFurnitureJob == null) {
-					//This tile is valid for this furniture
-					//Create a job for it to be build
+			if (WorldController.Instance.world.IsFurniturePlacementValid(buildModeObjectType, t)
+			     && t.pendingFurnitureJob == null) {
+				//This tile is valid for this furniture
+				//Create a job for it to be build
 
-					string furnitureType = buildModeObjectType;
-					Job j = new Job(t, (theJob) => {
-						WorldController.Instance.world.PlaceFurniture(furnitureType, theJob.tile);
-						t.pendingFurnitureJob = null;
-					});
+				string furnitureType = buildModeObjectType;
+				Job j = new Job(t, furnitureType, (theJob) => {
+					WorldController.Instance.world.PlaceFurniture(furnitureType, theJob.tile);
+					t.pendingFurnitureJob = null;
+				});
 
-					//FIXME: I dont't like having to manually and explicitly set flags that prevent conflicts. It's too easy to forget to set/clear them!
-					t.pendingFurnitureJob = j;
+				//FIXME: I dont't like having to manually and explicitly set flags that prevent conflicts. It's too easy to forget to set/clear them!
+				t.pendingFurnitureJob = j;
 
-					j.RegisterJobancelCallback((theJob) => {
-						theJob.tile.pendingFurnitureJob = null;
-					});
+				j.RegisterJobCancelCallback((theJob) => {
+					theJob.tile.pendingFurnitureJob = null;
+				});
 
-					//Add a job to the queue
-					WorldController.Instance.world.jobQueue.Enqueue(j);
-					Debug.Log("Job Queue Size: " + WorldController.Instance.world.jobQueue.Count);
-				}
+				//Add a job to the queue
+				WorldController.Instance.world.jobQueue.Enqueue(j);
+			}
 
 
-			} else 
-				t.Type = buildModeTile;
+		} else
+			t.Type = buildModeTile;
 		
 	}
-		
-	public void SetMode_BuildFloor() {
+
+	public void SetMode_BuildFloor () {
 		buildModeTile = TileType.Floor;
 		buildModeIsObjects = false;
 	}
 
-	public void SetMode_Bulldoze() {
+	public void SetMode_Bulldoze () {
 		buildModeTile = TileType.Empty;
 		buildModeIsObjects = false;
 	}
 
-	public void SetMode_BuildFurniture(string objectType) {
+	public void SetMode_BuildFurniture (string objectType) {
 		//Wall is not a Tile! Wall is a Furniture
 		buildModeIsObjects = true;
 		buildModeObjectType = objectType;

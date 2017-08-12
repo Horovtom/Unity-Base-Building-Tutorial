@@ -57,7 +57,7 @@ public class FurnitureSpriteController: MonoBehaviour {
 		obj.RegisterOnChangedCallback(OnFurnitureChanged);
 	}
 
-	Sprite GetSpriteForFurniture (Furniture obj) {
+	public Sprite GetSpriteForFurniture (Furniture obj) {
 		int x = obj.Tile.X, y = obj.Tile.Y;
 		if (obj.LinksToNeighbour == false) {
 			return furnitureSprites[obj.ObjectType];
@@ -99,5 +99,16 @@ public class FurnitureSpriteController: MonoBehaviour {
 	
 		GameObject furn_go = furnitureGameObjectMap[furn];
 		furn_go.GetComponent<SpriteRenderer>().sprite = GetSpriteForFurniture(furn);
+	}
+
+	public Sprite GetSpriteForFurniture(string objectType) {
+		if (furnitureSprites.ContainsKey(objectType)) {
+			return furnitureSprites[objectType];
+		} else if (furnitureSprites.ContainsKey(objectType + "_")){
+			return furnitureSprites[objectType + "_"];
+		} else {
+			Debug.LogError("GetSpriteForFurniture - Sprite: " + objectType + " does not exist!");
+			return null;
+		}
 	}
 }
