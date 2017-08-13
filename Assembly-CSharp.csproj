@@ -71,6 +71,7 @@
      <Compile Include="Assets\Scripts\Utilities\Priority_Queue\Priority Queue\SimplePriorityQueue.cs" />
      <Compile Include="Assets\Scripts\Utilities\SimplePool.cs" />
      <Compile Include="Assets\UI\AutomaticVerticalSize.cs" />
+     <Compile Include="Assets\UI\DebuggingMenu.cs" />
      <None Include="Assets\Resources\Fonts\Cubellan_v_0_7\Read_Me.txt" />
      <None Include="Assets\UI\Kenney Assets\License.txt" />
      <None Include="Assets\Scripts\Utilities\Priority_Queue\GITHUB PAGE.txt" />
