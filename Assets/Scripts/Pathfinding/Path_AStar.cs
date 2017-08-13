@@ -11,8 +11,6 @@ public class Path_AStar {
 		}
 
 		Dictionary<Tile, Path_Node<Tile>> nodes = world.tileGraph.nodes;
-		Path_Node<Tile> start = nodes[tileStart];
-		Path_Node<Tile> goal = nodes[tileEnd];
 
 		if (nodes.ContainsKey(tileStart) == false) {
 			Debug.LogError("Path_AStar: The starting tile isn't in the list of nodes!");
@@ -22,6 +20,11 @@ public class Path_AStar {
 			Debug.LogError("Path_AStar: The ending tile isn't in the list of nodes!");
 			return;
 		}
+
+		Path_Node<Tile> start = nodes[tileStart];
+		Path_Node<Tile> goal = nodes[tileEnd];
+
+
 
 		List<Path_Node<Tile>> ClosedSet = new List<Path_Node<Tile>>();
 		//List<Path_Node<Tile>> OpenSet = new List<Path_Node<Tile>>();
@@ -92,7 +95,11 @@ public class Path_AStar {
 		return Mathf.Sqrt(Mathf.Pow(start.data.X - goal.data.X, 2) + Mathf.Pow(start.data.Y - goal.data.Y, 2));
 	}
 
-	public Tile GetNextTile() {
-		return total_path.Pop();
+	public Tile Dequeue() {
+		return total_path == null ? null : total_path.Pop();
+	}
+
+	public int Length() {
+		return total_path == null ? 0 : total_path.Count;
 	}
 }

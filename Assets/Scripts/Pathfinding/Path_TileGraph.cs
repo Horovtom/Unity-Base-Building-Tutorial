@@ -23,12 +23,12 @@ public class Path_TileGraph {
 
 				Tile t = world.GetTileAt(x, y);
 
-				if (t.MovementCost > 0) { //Tiles with a move cost of 0 are unwalkable
+				//if (t.MovementCost > 0) { //Tiles with a move cost of 0 are unwalkable
 					Path_Node<Tile> n = new Path_Node<Tile>();
 					n.data = t;
 					nodes.Add(t, n);
 					if (debug) Debug.DrawLine(new Vector3(x+0.4f, y+0.25f, 0), new Vector3(x+0.6f, y+0.75f, 0), Color.red, 5f);
-				}
+				//}
 			}
 		}
 
@@ -52,7 +52,7 @@ public class Path_TileGraph {
 					e.cost = neighbours[i].MovementCost * i < 4 ? 1 : 1.41421356237f;
 					e.node = nodes[neighbours[i]];
 					edges.Add(e);
-					if (debug) Debug.DrawLine(new Vector3(t.X + 0.5f, t.Y + 0.5f, 0), new Vector3(e.node.data.X + 0.5f, e.node.data.Y+0.5f, 0), Color.green, 10f);
+					if (debug && t.MovementCost > 0) Debug.DrawLine(new Vector3(t.X + 0.5f, t.Y + 0.5f, 0), new Vector3(e.node.data.X + 0.5f, e.node.data.Y+0.5f, 0), Color.green, 10f);
 				}
 			}
 
