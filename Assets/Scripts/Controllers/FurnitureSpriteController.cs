@@ -27,6 +27,11 @@ public class FurnitureSpriteController: MonoBehaviour {
 
 		//Registering callback
 		world.RegisterFurnitureCreated(OnFurnitureCreated);
+
+		//Go through any existing (i.e. from a save that was loaded OnEnable) furniture and call the OnCreated event manually?
+		foreach(Furniture furn in world.furnitures) {
+			OnFurnitureCreated(furn);
+		}
 	}
 		
 	void LoadSprites() {

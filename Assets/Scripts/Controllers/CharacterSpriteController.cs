@@ -21,8 +21,10 @@ public class CharacterSpriteController : MonoBehaviour {
 		//Registering callback
 		world.RegisterCharacterCreated(OnCharacterCreated);
 
-		//DEBUG
-		world.CreateCharacter(world.GetTileAt(world.Width / 2, world.Height / 2));
+		//Check for pre-existing characters, which won't do the callback.
+		foreach(Character c in world.characters) {
+			OnCharacterCreated(c);
+		}
 	}
 
 	void LoadSprites() {

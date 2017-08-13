@@ -40,6 +40,8 @@ public class TileSpriteController: MonoBehaviour {
 				SpriteRenderer sr = tile_gameobject.AddComponent<SpriteRenderer>();
 				sr.sprite = emptySprite;
 				sr.sortingLayerName = "Tiles";
+
+				OnTileChanged(tile_dataobject);
 			}
 		}
 

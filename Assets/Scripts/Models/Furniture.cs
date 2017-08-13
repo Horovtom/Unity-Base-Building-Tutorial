@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
-public class Furniture {
+public class Furniture : IXmlSerializable{
 
 	public Tile Tile {
 		get;
@@ -33,8 +36,8 @@ public class Furniture {
 
 	//TODO: Implement larger objects
 	//TODO: Implement object rotation
-
-	protected Furniture (){}
+	[System.Obsolete("Method is deprecated, should be used only by serialization")]
+	public Furniture (){}
 
 	//This is used by our object factory to create the prototypical object
 	//It doesnt ask for a tile.
@@ -95,16 +98,16 @@ public class Furniture {
 				}
 			}*/
 			t = tile.world.GetTileAt(x, y + 1);
-			if (t != null && t.furniture != null && t.furniture.ObjectType == obj.ObjectType)
+			if (t != null && t.furniture != null && t.furniture.cbOnChanged != null && t.furniture.ObjectType == obj.ObjectType)
 				t.furniture.cbOnChanged(t.furniture);
 			t = tile.world.GetTileAt(x + 1, y);
-			if (t != null && t.furniture != null && t.furniture.ObjectType == obj.ObjectType)
+			if (t != null && t.furniture != null && t.furniture.cbOnChanged != null && t.furniture.ObjectType == obj.ObjectType)
 				t.furniture.cbOnChanged(t.furniture);
 			t = tile.world.GetTileAt(x, y - 1);
-			if (t != null && t.furniture != null && t.furniture.ObjectType == obj.ObjectType)
+			if (t != null && t.furniture != null && t.furniture.cbOnChanged != null && t.furniture.ObjectType == obj.ObjectType)
 				t.furniture.cbOnChanged(t.furniture);
 			t = tile.world.GetTileAt(x - 1, y);
-			if (t != null && t.furniture != null && t.furniture.ObjectType == obj.ObjectType)
+			if (t != null && t.furniture != null && t.furniture.cbOnChanged != null && t.furniture.ObjectType == obj.ObjectType)
 				t.furniture.cbOnChanged(t.furniture);
 		}
 
@@ -147,4 +150,32 @@ public class Furniture {
 
 		return true;
 	}
+
+	//////////////////////////////////////////
+	/// 		
+	/// 			SAVING & LOADING
+	/// 
+	/////////////////////////////////////////
+
+	#region Saving & Loading
+
+	public XmlSchema GetSchema() {
+		return null;
+	}
+
+	public void WriteXml(XmlWriter writer) {
+		//Save info here
+		writer.WriteAttributeString("objectType", ObjectType);
+		writer.WriteAttributeString("movementCost", MovementCost.ToString());
+		writer.WriteAttributeString("X", Tile.X.ToString());
+		writer.WriteAttributeString("Y", Tile.Y.ToString());
+
+	}
+
+	public void ReadXml(XmlReader reader) {
+		//Load info here
+		MovementCost = float.Parse(reader.GetAttribute("movementCost"));
+	}
+
+	#endregion
 }

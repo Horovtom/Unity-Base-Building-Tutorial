@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
-public class Character {
+public class Character : IXmlSerializable {
 	public float X {
 		get {
 			return nextTile != null ? Mathf.Lerp(currTile.X, nextTile.X, movementPercentage) : currTile.X;
@@ -29,6 +32,11 @@ public class Character {
 
 	public Character(Tile tile) {
 		currTile = destTile = nextTile = tile;
+	}
+
+	[System.Obsolete("Should be used only for serialization")]
+	public Character() {
+		
 	}
 
 	public void Update(float deltaTime) {
@@ -145,4 +153,30 @@ public class Character {
 
 		myJob = null;
 	}
+
+	//////////////////////////////////////////
+	/// 		
+	/// 			SAVING & LOADING
+	/// 
+	/////////////////////////////////////////
+
+	#region Saving & Loading
+
+	public XmlSchema GetSchema() {
+		return null;
+	}
+
+	public void WriteXml(XmlWriter writer) {
+		//Save info here
+		writer.WriteAttributeString("X", currTile.X.ToString());
+		writer.WriteAttributeString("Y", currTile.Y.ToString());
+
+	}
+
+	public void ReadXml(XmlReader reader) {
+		//Load info here
+
+	}
+
+	#endregion
 }
