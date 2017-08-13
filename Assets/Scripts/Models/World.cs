@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
-public class World {
+public class World : IXmlSerializable {
 
 	Tile[,] tiles;
 	List<Character> characters;
@@ -33,7 +36,9 @@ public class World {
 		protected set;
 	}
 
-	public World (int width = 100, int height = 100) {
+
+
+	public World (int width, int height) {
 		jobQueue = new JobQueue();
 		this.Width = width;
 		this.Height = height;
@@ -200,5 +205,32 @@ public class World {
 		}
 	}
 
+	//////////////////////////////////////////
+	/// 		
+	/// 			SAVING & LOADING
+	/// 
+	/////////////////////////////////////////
+
+	#region Saving & Loading
+
+	public World() {}
+
+	public XmlSchema GetSchema() {
+		return null;
+	}
+
+	public void WriteXml(XmlWriter writer) {
+		//Save info here
+		writer.WriteAttributeString("Width", Width.ToString());
+		writer.WriteAttributeString("Height", Height.ToString());
+
+
+	}
+
+	public void ReadXml(XmlReader reader) {
+		//Load info here
+	}
+
+	#endregion
 
 }
