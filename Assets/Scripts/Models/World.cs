@@ -15,7 +15,7 @@ public class World {
 	/// <summary>
 	/// The tile graph used for pathfinding.
 	/// </summary>
-	Path_TileGraph tileGraph;
+	public Path_TileGraph tileGraph;
 
 	//TODO: Most likely this will be replaced with a dedicated class for managing job queues (plural!) that might also 
 	//be semi-static or self initializing or some damn thing.

@@ -1,16 +1,19 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Controllers\FurnitureSpriteController1.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Pathfinding\Path_AStar.cs">
     <Files>
-      <File FileName="Assets\Models\World.cs" Line="1" Column="1" />
-      <File FileName="Assets\Controllers\WorldController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Models\Furniture.cs" Line="1" Column="1" />
-      <File FileName="Assets\Models\Tile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Controllers\SoundController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Controllers\MouseController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Models\Job.cs" Line="1" Column="1" />
-      <File FileName="Assets\Controllers\TileSpriteController.cs" Line="17" Column="59" />
-      <File FileName="Assets\Controllers\FurnitureSpriteController1.cs" Line="15" Column="2" />
+      <File FileName="Assets\Scripts\Pathfinding\Path_Node.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Pathfinding\Path_Edge.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Pathfinding\Path_TileGraph.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Models\Tile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Models\Furniture.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Models\World.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\BuildModeController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\WorldController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Pathfinding\Path_AStar.cs" Line="27" Column="3" />
+      <File FileName="Assets\Scripts\Models\Character.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Pathfinding\Path_ScoreDict.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Controllers\CharacterSpriteController.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

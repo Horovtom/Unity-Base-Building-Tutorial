@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 /// </summary>
 public class Path_TileGraph {
 
-	Dictionary<Tile, Path_Node<Tile>> nodes;
+	public Dictionary<Tile, Path_Node<Tile>> nodes;
 
 	public Path_TileGraph(World world, bool debug = false) {
 		nodes = new Dictionary<Tile, Path_Node<Tile>>();
@@ -49,7 +49,7 @@ public class Path_TileGraph {
 					//This neighbours exists and is walkable, so create an edge.
 
 					Path_Edge<Tile> e = new Path_Edge<Tile>();
-					e.cost = neighbours[i].MovementCost;
+					e.cost = neighbours[i].MovementCost * i < 4 ? 1 : 1.41421356237f;
 					e.node = nodes[neighbours[i]];
 					edges.Add(e);
 					if (debug) Debug.DrawLine(new Vector3(t.X + 0.5f, t.Y + 0.5f, 0), new Vector3(e.node.data.X + 0.5f, e.node.data.Y+0.5f, 0), Color.green, 10f);
