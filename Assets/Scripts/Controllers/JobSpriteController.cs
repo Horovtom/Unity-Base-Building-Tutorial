@@ -27,7 +27,12 @@ public class JobSpriteController : MonoBehaviour {
 
 		//FIXME: Does not consider multi-tile objects nor rotated objects
 
+		if (jobGameObjectMap.ContainsKey(j)) {
+			Debug.LogError("OnJobCreated for a jobGO that already exists -- most likely a job being RE-QUEUED, as opposed to created");
+			return;
+		}
 		jobGameObjectMap.Add(j, job_go);
+
 		job_go.name = "JOB_" + j.jobObjectType + "(" + j.tile.X + ", " + j.tile.Y + ")";
 		job_go.transform.position = new Vector3(j.tile.X, j.tile.Y, 0);
 		job_go.transform.SetParent(this.transform, true);

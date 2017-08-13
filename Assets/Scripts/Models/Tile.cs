@@ -119,10 +119,11 @@ public class Tile {
 	/// <summary>
 	/// Gets the neighbours. 
 	/// </summary>
-	/// <returns>The neighbours in an array of size 4 if diagOkay is false (N/E/S/W), 
+	/// <returns>
+	/// The neighbours in an array of size 4 if diagOkay is false (N/E/S/W), 
 	/// or size 8 if diagOkay is true (N/E/S/W/NE/SE/SW/NW). 
 	/// </returns>
-	/// <param name="diagOkay">If set to <c>true</c> diag okay.</param>
+	/// <param name="diagOkay">If set to <c>true</c> diagonals are included okay.</param>
 	public ReadOnlyCollection<Tile> GetNeighbours(bool diagOkay = false) {
 		if (neighbours == null)
 			PopulateNeighbours();

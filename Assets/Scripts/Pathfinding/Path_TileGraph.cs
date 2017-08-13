@@ -48,6 +48,11 @@ public class Path_TileGraph {
 				if (neighbours[i] != null && neighbours[i].MovementCost > 0) {
 					//This neighbours exists and is walkable, so create an edge.
 
+					//But first, make sure we aren't clipping a diagonal or trying to squeeze inappropriately
+					if (IsClippingCorner(neighbours, i)) 
+						continue;
+					
+
 					Path_Edge<Tile> e = new Path_Edge<Tile>();
 					e.cost = neighbours[i].MovementCost * i < 4 ? 1 : 1.41421356237f;
 					e.node = nodes[neighbours[i]];
@@ -61,6 +66,19 @@ public class Path_TileGraph {
 			n.edges = edges.ToArray();
 
 		}
+	}
+
+	/// <summary>
+	/// If the movement from curr to neigh is diagonal (e.g. N-E)
+	/// Then check to make sure we are clipping (e.g. N and E are both walkable)
+	/// </summary>
+	bool IsClippingCorner(ReadOnlyCollection<Tile> neighbours, int index) {
+		if (index < 4)
+			return false;
+		index -= 4;
+		Tile left = neighbours[index];
+		Tile right = neighbours[index == 3 ? 0 : index + 1];
+		return left == null || right == null || left.MovementCost == 0 || right.MovementCost == 0;
 	}
 
 }
