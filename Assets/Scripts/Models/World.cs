@@ -39,6 +39,10 @@ public class World : IXmlSerializable {
 
 
 	public World (int width, int height) {
+		SetupWorld(width, height);
+	}
+
+	void SetupWorld(int width, int height) {
 		jobQueue = new JobQueue();
 		this.Width = width;
 		this.Height = height;
@@ -224,11 +228,41 @@ public class World : IXmlSerializable {
 		writer.WriteAttributeString("Width", Width.ToString());
 		writer.WriteAttributeString("Height", Height.ToString());
 
-
+		writer.WriteStartElement("Tiles");
+		for (int x = 0; x < Width; x++) {
+			for (int y = 0; y < Height; y++) {
+				writer.WriteStartElement("Tile");
+				tiles[x, y].WriteXml(writer);
+				writer.WriteEndElement();
+			}
+		}
+		writer.WriteEndElement();
 	}
 
 	public void ReadXml(XmlReader reader) {
+		Debug.Log("Read XML runs!");
 		//Load info here
+
+		reader.MoveToAttribute("Width");
+		int width = reader.ReadContentAsInt();
+		reader.MoveToAttribute("Height");
+		int height = reader.ReadContentAsInt();
+		reader.MoveToElement();
+
+		SetupWorld(width, height);
+
+		reader.ReadToDescendant("Tiles");
+		reader.ReadToDescendant("Tile");
+		while(reader.IsStartElement("Tile")) {
+			reader.MoveToAttribute("X");
+			int x = reader.ReadContentAsInt();
+			reader.MoveToAttribute("Y");
+			int y = reader.ReadContentAsInt();
+			tiles[x, y].ReadXml(reader);
+
+			if (!reader.ReadToNextSibling("Tile"))
+				break;
+		}
 	}
 
 	#endregion

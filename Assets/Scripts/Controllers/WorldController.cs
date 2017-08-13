@@ -59,7 +59,7 @@ public class WorldController : MonoBehaviour {
 		serializer.Serialize(writer, world);
 		writer.Close();
 
-		Debug.Log(writer.ToString());
+		PlayerPrefs.SetString("SaveGame00", writer.ToString());
 
 	}
 
@@ -71,7 +71,12 @@ public class WorldController : MonoBehaviour {
 	}
 
 	void CreateWorldFromSaveFile() {
-		world = new World(100,100);
+
+		XmlSerializer serializer = new XmlSerializer(typeof(World));
+		TextReader reader = new StringReader(PlayerPrefs.GetString("SaveGame00"));
+		world = (World)serializer.Deserialize(reader);
+
+		reader.Close();
 
 		//Center the Camera
 		Camera.main.transform.position = new Vector3(world.Width /2, world.Height/2, Camera.main.transform.position.z);

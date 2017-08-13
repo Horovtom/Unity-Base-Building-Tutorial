@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
-public class Tile {
+public class Tile : IXmlSerializable {
 
 	Action<Tile> cbTileChanged;
 
@@ -151,6 +154,42 @@ public class Tile {
 		neighbours[0] = new ReadOnlyCollection<Tile>(neighbours4);
 		neighbours[1] = new ReadOnlyCollection<Tile>(neighbours8);
 	}
+
+	//////////////////////////////////////////
+	/// 		
+	/// 			SAVING & LOADING
+	/// 
+	/////////////////////////////////////////
+
+	#region Saving & Loading
+
+	public Tile() {}
+
+	public XmlSchema GetSchema() {
+		return null;
+	}
+
+	public void WriteXml(XmlWriter writer) {
+		//Save info here
+		writer.WriteAttributeString("X", x.ToString());
+		writer.WriteAttributeString("Y", y.ToString());
+		writer.WriteAttributeString("Type", ((int)Type).ToString());
+
+
+	}
+
+	public void ReadXml(XmlReader reader) {
+		//Load info here
+		reader.MoveToAttribute("X");
+		x = reader.ReadContentAsInt();
+		reader.MoveToAttribute("Y");
+		y = reader.ReadContentAsInt();
+		reader.MoveToAttribute("Type");
+		Type = (TileType)reader.ReadContentAsInt();
+
+	}
+
+	#endregion
 }
 
 public enum TileType {
