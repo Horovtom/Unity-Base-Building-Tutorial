@@ -107,7 +107,7 @@ public class World : IXmlSerializable {
 		furniturePrototypes.Add("Door", 
 			new Furniture(
 				"Door",
-				10, //Tile is impassable
+				1, //Door pathfinding cost
 				1,
 				1,
 				false //Links to neighbours and "sort of" becomes part of a large object
@@ -115,8 +115,11 @@ public class World : IXmlSerializable {
 		);
 
 
-		furniturePrototypes["Door"].furnParameters["opeenness"] = 0;
+		furniturePrototypes["Door"].furnParameters["openness"] = 0;
+		furniturePrototypes["Door"].furnParameters["is_opening"] = 0;
 		furniturePrototypes["Door"].updateActions += FurnitureActions.Door_UpdateAction;
+		furniturePrototypes["Door"].getEnterability = FurnitureActions.Door_IsEnterable;
+
 	}
 
 
@@ -261,6 +264,8 @@ public class World : IXmlSerializable {
 		int count = 0;
 		for (int x = 0; x < Width; x++) {
 			for (int y = 0; y < Height; y++) {
+				if (tiles[x, y].Type == TileType.Empty)
+					continue;
 				writer.WriteStartElement("Tile");
 				tiles[x, y].WriteXml(writer);
 				writer.WriteEndElement();

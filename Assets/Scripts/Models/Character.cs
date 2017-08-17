@@ -79,10 +79,17 @@ public class Character : IXmlSerializable {
 			}
 		}
 
-		if (nextTile.MovementCost == 0) {
+		if (nextTile.GetEnterability() == Enterability.Never) {
+			//Most likely wall got built, so we just need to reset our pathfinding information.
+			//FIXME: Ideally, when a wall gets spawned, we should invalidate our path immediately, so that we dont waste a bunch of time walking towards a dead end. To save CPU, maybe we can only check every so often? Or maybe we should register a callback to the OnTileChanged event?
 			Debug.LogError("FIXME: A character was trying to enter an unwalkable tile!");
 			nextTile = null;
 			pathAStar = null;
+			return;
+		} else if (nextTile.GetEnterability() == Enterability.Soon) {
+			// We can't enter the tile NOW, but we should be able to do so in the future
+			//This is likely a door.
+			//We dont bail out our movement path but we do return now and don't actually process movement
 			return;
 		}
 

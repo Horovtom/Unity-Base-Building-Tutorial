@@ -37,6 +37,20 @@ public class Tile : IXmlSerializable {
 		}
 	}
 
+	/// <summary>
+	/// Returns true if you can enter this tile right this moment
+	/// </summary>
+	public Enterability GetEnterability() {
+		if (MovementCost == 0)
+			return Enterability.Never;
+
+		//Check out furniture to see if it has a special block on enterability
+		if (furniture != null && furniture.getEnterability != null) {
+			return furniture.getEnterability(furniture);
+		}
+
+		return Enterability.Yes;
+	}
 
 	Inventory inventory;
 	public Furniture furniture {
@@ -195,3 +209,4 @@ public enum TileType {
 	Floor}
 ;
 
+public enum Enterability {Yes, Never, Soon};
