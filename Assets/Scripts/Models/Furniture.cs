@@ -1,11 +1,20 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic ;
 using System;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
 public class Furniture : IXmlSerializable{
+
+	public Dictionary<string, object> furnParameters;
+	public Action<Furniture, float> updateActions;
+
+	public void Update(float deltaTime) {
+		if (updateActions != null) {
+			updateActions(this, deltaTime);
+		}
+	}
 
 	public Tile Tile {
 		get;
@@ -34,23 +43,33 @@ public class Furniture : IXmlSerializable{
 		protected set;
 	}
 
-	//TODO: Implement larger objects
-	//TODO: Implement object rotation
-	[System.Obsolete("Method is deprecated, should be used only by serialization")]
-	public Furniture (){}
-
 	//This is used by our object factory to create the prototypical object
 	//It doesnt ask for a tile.
-	static public Furniture CreatePrototype (string objectType, float movementCost = 1f, int width = 1, int height = 1, bool linksToNeighbour = false) {
-		Furniture obj = new Furniture();
-		obj.ObjectType = objectType;
-		obj.MovementCost = movementCost;
-		obj.width = width;
-		obj.height = height;
-		obj.LinksToNeighbour = linksToNeighbour;
-		obj.funcPositionValidation = obj.__IsValidPosition;
+	public Furniture(string objectType, float movementCost = 1f, int width = 1, int height = 1, bool linksToNeighbour = false) {
+		this.ObjectType = objectType;
+		this.MovementCost = movementCost;
+		this.width = width;
+		this.height = height;
+		this.LinksToNeighbour = linksToNeighbour;
+		this.funcPositionValidation = this.__IsValidPosition;
 
-		return obj;
+		furnParameters = new Dictionary<string, object>();
+	}
+
+	virtual public Furniture Clone() {
+		return new Furniture(this);
+	}
+
+	//Used to place furniture
+	protected Furniture(Furniture other) {
+		this.ObjectType = other.ObjectType;
+		this.MovementCost = other.MovementCost;
+		this.width = other.width;
+		this.height = other.height;
+		this.LinksToNeighbour = other.LinksToNeighbour;
+		if (other.updateActions != null)
+			this.updateActions = (Action<Furniture, float>)other.updateActions.Clone();
+		this.furnParameters = new Dictionary<string, object>(other.furnParameters);
 	}
 
 	static public Furniture PlaceInstance (Furniture proto, Tile tile) {
@@ -65,14 +84,7 @@ public class Furniture : IXmlSerializable{
 
 		//We know our placement destination is valid
 
-		Furniture obj = new Furniture();
-
-		obj.ObjectType = proto.ObjectType;
-		obj.MovementCost = proto.MovementCost;
-		obj.width = proto.width;
-		obj.height = proto.height;
-		obj.LinksToNeighbour = proto.LinksToNeighbour;
-
+		Furniture obj = proto.Clone();
 		obj.Tile = tile;
 
 		//FIXME:This assumes we are 1x1!
@@ -151,6 +163,8 @@ public class Furniture : IXmlSerializable{
 		return true;
 	}
 
+
+
 	//////////////////////////////////////////
 	/// 		
 	/// 			SAVING & LOADING
@@ -158,6 +172,13 @@ public class Furniture : IXmlSerializable{
 	/////////////////////////////////////////
 
 	#region Saving & Loading
+
+	//TODO: Implement larger objects
+	//TODO: Implement object rotation
+	[System.Obsolete("Method is deprecated, should be used only by serialization")]
+	public Furniture (){
+		furnParameters = new Dictionary<string, object>();
+	}
 
 	public XmlSchema GetSchema() {
 		return null;

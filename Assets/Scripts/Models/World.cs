@@ -86,10 +86,12 @@ public class World : IXmlSerializable {
 	}
 
 	void CreateFurniturePrototypes () {
+		//This will be replaced by a function that reads all of our furniture data from a text file in the future
+
 		furniturePrototypes = new Dictionary<string, Furniture>();
 
 		furniturePrototypes.Add("Wall", 
-			Furniture.CreatePrototype(
+			new Furniture(
 				"Wall",
 				0, //Tile is impassable
 				1,
@@ -97,6 +99,20 @@ public class World : IXmlSerializable {
 				true //Links to neighbours and "sort of" becomes part of a large object
 			)
 		);
+
+		furniturePrototypes.Add("Door", 
+			new Furniture(
+				"Door",
+				0, //Tile is impassable
+				1,
+				1,
+				true //Links to neighbours and "sort of" becomes part of a large object
+			)
+		);
+
+
+		furniturePrototypes["Door"].furnParameters["opeenness"] = 0;
+		furniturePrototypes["Door"].updateActions += FurnitureActions.Door_UpdateAction;
 	}
 
 

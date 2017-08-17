@@ -25,7 +25,7 @@ public class Character : IXmlSerializable {
 	Tile nextTile; //The next tile in the pathfinding sequence
 	Path_AStar pathAStar;
 	float movementPercentage; //goes from 0 to 1 as we move from currTile to destTile
-	float speed = 2f; //Tiles per second
+	float speed = 5f; //Tiles per second
 	Action<Character> cbCharacterChanged;
 
 	Job myJob;
