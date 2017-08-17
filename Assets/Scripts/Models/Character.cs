@@ -67,7 +67,10 @@ public class Character : IXmlSerializable {
 					pathAStar = null;
 					return;
 				}
+
+				//nextTile = pathAStar.Dequeue();
 			}
+
 
 			nextTile = pathAStar.Dequeue();
 
@@ -76,8 +79,15 @@ public class Character : IXmlSerializable {
 			}
 		}
 
+		if (nextTile.MovementCost == 0) {
+			Debug.LogError("FIXME: A character was trying to enter an unwalkable tile!");
+			nextTile = null;
+			pathAStar = null;
+			return;
+		}
+
 		float distToTravel = Mathf.Sqrt(Mathf.Pow(currTile.X - nextTile.X, 2) + Mathf.Pow(currTile.Y - nextTile.Y, 2));
-		float distThisFrame = speed * deltaTime;
+		float distThisFrame = (speed / nextTile.MovementCost) * deltaTime;
 		float percThisFrame = distToTravel <= 0 ? 1 - movementPercentage : distThisFrame / distToTravel;
 
 		movementPercentage += percThisFrame;

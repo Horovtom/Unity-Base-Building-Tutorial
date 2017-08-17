@@ -54,7 +54,7 @@ public class Path_TileGraph {
 					
 
 					Path_Edge<Tile> e = new Path_Edge<Tile>();
-					e.cost = neighbours[i].MovementCost * i < 4 ? 1 : 1.41421356237f;
+					e.cost = neighbours[i].MovementCost * (i < 4 ? 1 : 1.41421356237f);
 					e.node = nodes[neighbours[i]];
 					edges.Add(e);
 					if (debug && t.MovementCost > 0) Debug.DrawLine(new Vector3(t.X + 0.5f, t.Y + 0.5f, 0), new Vector3(e.node.data.X + 0.5f, e.node.data.Y+0.5f, 0), Color.green, 10f);

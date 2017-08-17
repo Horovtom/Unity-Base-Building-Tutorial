@@ -23,7 +23,6 @@ public class JobSpriteController : MonoBehaviour {
 
 		//TODO: Sprite
 
-		GameObject job_go = new GameObject();
 
 		//FIXME: Does not consider multi-tile objects nor rotated objects
 
@@ -31,6 +30,8 @@ public class JobSpriteController : MonoBehaviour {
 			Debug.LogError("OnJobCreated for a jobGO that already exists -- most likely a job being RE-QUEUED, as opposed to created");
 			return;
 		}
+		GameObject job_go = new GameObject();
+
 		jobGameObjectMap.Add(j, job_go);
 
 		job_go.name = "JOB_" + j.jobObjectType + "(" + j.tile.X + ", " + j.tile.Y + ")";
