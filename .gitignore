@@ -13,6 +13,7 @@ sysinfo.txt
 /Assets/AssetStoreTools*
 *.apk
 *.unitypackage
+/Library/ScriptAssemblies
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
