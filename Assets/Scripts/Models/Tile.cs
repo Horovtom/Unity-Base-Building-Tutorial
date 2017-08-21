@@ -12,14 +12,16 @@ public class Tile : IXmlSerializable {
 
 	TileType _type = TileType.Empty;
 
+	const float baseTileMovementCost = 1; //FIXME: This is just hardcoded for now
+
 	public float MovementCost {
 		get {
 			if (Type == TileType.Empty)
 				return 0;
 			else if (furniture == null)
-				return 1;
+				return baseTileMovementCost;
 			else
-				return furniture.MovementCost;
+				return baseTileMovementCost * furniture.MovementCost;
 		}
 	}
 

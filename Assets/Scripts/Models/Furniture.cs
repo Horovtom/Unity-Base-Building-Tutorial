@@ -36,7 +36,7 @@ public class Furniture : IXmlSerializable{
 		protected set;
 	}
 
-	Action<Furniture> cbOnChanged;
+	public Action<Furniture> cbOnChanged;
 
 	public Func<Tile, bool> funcPositionValidation {get; protected set;}
 
